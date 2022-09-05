@@ -30,10 +30,38 @@ class SecondViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         fetchImage()
+        delay(3) {
+            self.loginAlert()
+        }
+    }
+    
+    fileprivate func delay(_ delay: Int, closure: @escaping ()->()){
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(delay)) {
+            closure()
+        }
+    }
+    
+    fileprivate func loginAlert() {
+        let ac = UIAlertController(title: "Зарегистрированны?", message: "Введите ваш логин и пароль", preferredStyle: .alert)
+        
+        let okAction = UIAlertAction(title: "ОК", style: .default, handler: nil)
+        let cancelAction = UIAlertAction(title: "Отмена", style: .default, handler: nil)
+        ac.addAction(okAction)
+        ac.addAction(cancelAction)
+        
+        ac.addTextField { (usernameTF) in
+            usernameTF.placeholder = "Введите логин"
+        }
+        
+        ac.addTextField { (usernamePS) in
+            usernamePS.placeholder = "Введите пароль"
+            usernamePS.isSecureTextEntry = true
+        }
+        
+        self.present(ac, animated: true)
     }
     
     fileprivate func fetchImage() {
-        
         imageURL = URL(string: "https://www.wallpapers13.com/wp-content/uploads/2016/01/Sunset-sea-shore-sea-waves-rocky-mountains-red-sky-dark-cloud-Beautiful-HD-Wallpaper-840x525.jpg")
         activityIndicator.isHidden = false
         activityIndicator.startAnimating()
